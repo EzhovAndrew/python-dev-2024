@@ -1,4 +1,5 @@
 import argparse
+import os
 import sys
 
 import cowsay
@@ -87,7 +88,8 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     if args.l:
-        cowsay.list_cows()
+        path = os.environ.get("COWPATH", cowsay.COW_PEN)
+        print(cowsay.list_cows(path))
         return
     message = sys.stdin.read()
     kwargs = {
