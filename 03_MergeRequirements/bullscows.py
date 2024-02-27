@@ -1,9 +1,14 @@
 import argparse
 import random
+from pathlib import Path
 from typing import Callable
 from urllib import request
 
-from cowsay import cowsay, get_random_cow
+from cowsay import cowsay, get_random_cow, read_dot_cow
+
+f = open(Path(__file__).parent / "my_cow.cow")
+MY_COW_FILE = read_dot_cow(f)
+f.close()
 
 
 def nonnegative_int(s: str) -> int:
@@ -60,7 +65,7 @@ def gameplay(ask: Callable, inform: Callable, words: list[str]) -> int:
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    while s := input(f"{cowsay(message=prompt, cow=get_random_cow())}\n>"):
+    while s := input(f"{cowsay(message=prompt, cowfile=MY_COW_FILE)}\n>"):
         if valid is not None and s not in valid:
             print("Ваше слово некорректное, попробуйте другое")
             continue
