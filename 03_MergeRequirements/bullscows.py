@@ -11,7 +11,9 @@ def nonnegative_int(s: str) -> int:
             raise TypeError
         return res
     except:
-        raise argparse.ArgumentTypeError("Parameter must be positive int number.")
+        raise argparse.ArgumentTypeError(
+            "Параметр должен быть положительным целым числом."
+        )
 
 
 def parse_args() -> argparse.Namespace:
@@ -19,14 +21,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "dictionary",
         type=str,
-        help="Dictionary file name or valid url to download file",
+        help="Путь до файла в файловой системе либо корректный url.",
     )
     parser.add_argument(
         "length",
         nargs="?",
         default=5,
         type=nonnegative_int,
-        help="Length of secret words.",
+        help="Длина слов в игре",
     )
     return parser.parse_args()
 
@@ -58,7 +60,7 @@ def gameplay(ask: Callable, inform: Callable, words: list[str]) -> int:
 def ask(prompt: str, valid: list[str] = None) -> str:
     while s := input(prompt):
         if valid is not None and s not in valid:
-            print("Your word is not valid, try another")
+            print("Ваше слово некорректное, попробуйте другое")
             continue
         return s
 
@@ -85,7 +87,7 @@ def main() -> None:
     except:
         words = read_from_file(args.dictionary)
     words = list(filter(lambda x: len(x) == args.length, words))
-    print("Number of attempts:", gameplay(ask, inform, words))
+    print("Количество попыток:", gameplay(ask, inform, words))
 
 
 if __name__ == "__main__":
