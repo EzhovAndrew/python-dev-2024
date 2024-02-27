@@ -3,6 +3,8 @@ import random
 from typing import Callable
 from urllib import request
 
+from cowsay import cowsay, get_random_cow
+
 
 def nonnegative_int(s: str) -> int:
     try:
@@ -58,7 +60,7 @@ def gameplay(ask: Callable, inform: Callable, words: list[str]) -> int:
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    while s := input(prompt):
+    while s := input(f"{cowsay(message=prompt, cow=get_random_cow())}\n>"):
         if valid is not None and s not in valid:
             print("Ваше слово некорректное, попробуйте другое")
             continue
@@ -66,7 +68,7 @@ def ask(prompt: str, valid: list[str] = None) -> str:
 
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    print(cowsay(message=format_string.format(bulls, cows), cow=get_random_cow()))
 
 
 def download_by_url(url: str) -> list[str]:
